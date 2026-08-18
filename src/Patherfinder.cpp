@@ -4,8 +4,11 @@
 #include "Node.h"
 #include "Pathfinder.h"
 
+Pathfinder::Pathfinder(std::vector<std::vector<Node>>& grid) : _grid(grid) {
 
-std::vector<Node> Pathfinder::FindPath(std::vector<std::vector<Node>>& grid, Node startNode, std::string method) {
+}
+
+std::vector<Node> Pathfinder::FindPath(Node startNode, std::string method) {
     if (method == "dijkstra") {
         DijkstraAlgorithm(startNode);
     } 
