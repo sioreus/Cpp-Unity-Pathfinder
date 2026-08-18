@@ -3,6 +3,8 @@
 *.o
 *.out
 *.exe
+*.lib
+*.dll
 
 # --- Unity Generated Folders ---
 [Ll]ibrary/
