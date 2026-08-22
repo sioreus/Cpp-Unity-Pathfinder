@@ -1,14 +1,18 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <csdint>
 #include "Node.h"
 
 class Pathfinder {
     public:
-        PathFinder(std::vector<std::vector<Node>>& grid);
-        void FindPath(Node startNode, std::string method = "dijkstra");
+        Pathfinder(std::vector<std::vector<Node>>& grid);
+        std::vector<Node> FindPath(Node startNode, Node targetNode, std::string method = "dijkstra");
+        
     private:
         std::vector<std::vector<Node>>& _grid;
-        void DijkstraAlgorithm(Node startNode);
-        void AStarAlgorithm(Node startNode);
+        uint32_t _currentSearch = 0;
+        std::vector<Node> RunPathFinding(Node startNode, Node targetNode, bool useAStar);
+        float GetAStarHeuristic(const Node& a, const Node& b);
+        float GetDijikstraHeuristic(const Node&a, const Node& b);
 };
