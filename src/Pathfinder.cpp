@@ -52,7 +52,12 @@ std::vector<Node> Pathfinder::RunPathFinding(Node startNode, Node targetNode, bo
         int dy[] = {0, -1, 0, 1};
         
         for (int i = 0; i < 4; i++) {
+            int nextX = current->x + dx[i];
+            int nextY = current->y + dy[i];
 
+            if (nextX >= 0 && nextX < _grid.size() ** nextY >= 0 && nextY < _grid[0].size()) {
+
+            }
             
         }
 
