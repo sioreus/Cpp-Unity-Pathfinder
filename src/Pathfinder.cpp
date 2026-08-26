@@ -47,6 +47,10 @@ std::vector<Node> Pathfinder::RunPathFinding(Node startNode, Node targetNode, bo
         Node* current = openSet.top();
 
         openSet.pop();
+        
+        if (current->x == goal->x && current->y == goal->y) {
+            break;
+        }
 
         int dx[] = {1, 0, -1, 0};
         int dy[] = {0, -1, 0, 1};
@@ -55,12 +59,47 @@ std::vector<Node> Pathfinder::RunPathFinding(Node startNode, Node targetNode, bo
             int nextX = current->x + dx[i];
             int nextY = current->y + dy[i];
 
-            if (nextX >= 0 && nextX < _grid.size() ** nextY >= 0 && nextY < _grid[0].size()) {
+            if (nextY >= 0 && nextY < _grid.size() && nextX >= 0 && nextX < _grid[0].size()) {
+                Node* neighbor = &_grid[nextY][nextX];
+                if (neighbor->walkable) {
+                    
+                    // currently wokring on so use the appropraite heuruistic to add to priroty queue
+                    if (neighbor->visitedInSearch != _currentSearch) {
+                        neighbor->visitedInSearch = _currentSearch;
+                        neighbor->parentX = current->x;
+                        neighbor->parentY = current->y;
+                        if (useAStar) {
+                            neighbor->hCost = GetAStarHeuristic(*neighbor, *goal);
+                        } 
+                        else {
+                            neighbor->hCost = GetDijikstraHeuristic(*neighbor, *goal);
+                        }
+                        neighbor->gCost = current->gCost + neighbor->movementCost;
+                        openSet.push(neighbor);
+                    } 
+                    else if (current->gCost + neighbor->movementCost < neighbor->gCost) {
+                        neighbor->parentX = current->x;
+                        neighbor->parentY = current->y;
+                        neighbor->gCost = current->gCost + neighbor->movementCost;
+                    }
 
+                }
             }
             
         }
-
     }
+
+    if (current->x != goal->x || current->y != goal->y) {
+        return {};
+    }
+    std::vector<Node> finalPath;
+
+    while (current->x != -1 && current->y != -1) {
+        finalPath.push_back(*current);
+        current = &_grid[current->parentY][current->parentX];
+    }
+
+    std::vector<Node> reversedFinalPath(finalPath.rbegin(), finalPath.rend());
+    return reversedFinalPath;
     
 }

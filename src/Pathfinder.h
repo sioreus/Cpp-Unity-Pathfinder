@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <csdint>
+#include <cstdint>
 #include "Node.h"
 
 class Pathfinder {
