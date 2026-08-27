@@ -63,7 +63,6 @@ std::vector<Node> Pathfinder::RunPathFinding(Node startNode, Node targetNode, bo
                 Node* neighbor = &_grid[nextY][nextX];
                 if (neighbor->walkable) {
                     
-                    // currently wokring on so use the appropraite heuruistic to add to priroty queue
                     if (neighbor->visitedInSearch != _currentSearch) {
                         neighbor->visitedInSearch = _currentSearch;
                         neighbor->parentX = current->x;
