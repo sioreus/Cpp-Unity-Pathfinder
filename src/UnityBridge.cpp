@@ -23,7 +23,7 @@ extern "C" {
                 g_Grid[y][x].x = x;
                 g_Grid[y][x].y = y;
                 g_Grid[y][x].movementCost = 1.0f;
-                g_Grid[y][x].isWalkable = true;
+                g_Grid[y][x].walkable = true;
                 g_Grid[y][x].parentX = -1;
                 g_Grid[y][x].parentY = -1;
                 g_Grid[y][x].visitedInSearch = 0;
@@ -39,7 +39,7 @@ extern "C" {
     EXPORT void SetNodeData(int x, int y, float movementCost, bool isWalkable) {
         if (0 <= y && y < g_Grid.size() && 0 <= x && x < g_Grid[0].size()) {
             g_Grid[y][x].movementCost = movementCost;
-            g_Grid[y][x].isWalkable = isWalkable;
+            g_Grid[y][x].walkable = isWalkable;
         }
     }
 
