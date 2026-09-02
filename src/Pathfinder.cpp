@@ -5,6 +5,7 @@
 #include <cmath>
 #include "Node.h"
 #include "Pathfinder.h"
+#include <iostream>
 
 Pathfinder::Pathfinder(std::vector<std::vector<Node>>& grid) : _grid(grid) {
 
@@ -34,21 +35,24 @@ struct CompareNodes {
 };
 
 std::vector<Node> Pathfinder::RunPathFinding(Node startNode, Node targetNode, bool useAStar) {
-
+    
     _currentSearch++;
 
     std::priority_queue<Node*, std::vector<Node*>, CompareNodes> openSet;
 
     Node* current = &_grid[startNode.y][startNode.x];
     Node* goal = &_grid[targetNode.y][targetNode.x];
+
+    current->visitedInSearch = _currentSearch;
     openSet.push(current);
 
     while (!openSet.empty()) {
-        Node* current = openSet.top();
+        current = openSet.top();
 
         openSet.pop();
         
         if (current->x == goal->x && current->y == goal->y) {
+            std::cout << "[DEBUG] Goal reached!" << std::endl;
             break;
         }
 
@@ -93,10 +97,15 @@ std::vector<Node> Pathfinder::RunPathFinding(Node startNode, Node targetNode, bo
     }
     std::vector<Node> finalPath;
 
-    while (current->x != -1 && current->y != -1) {
+    while (current != nullptr && (current->x != -1 && current->y != -1) && 
+    (current->parentY >= 0 && current->parentY < _grid.size() && current->parentX >= 0 && current->parentX < _grid[0].size())) {
         finalPath.push_back(*current);
         current = &_grid[current->parentY][current->parentX];
     }
+    if (current != nullptr) {
+        finalPath.push_back(*current);
+    }
+    
 
     std::vector<Node> reversedFinalPath(finalPath.rbegin(), finalPath.rend());
     return reversedFinalPath;

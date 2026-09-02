@@ -56,7 +56,7 @@ extern "C" {
         targetNode.x = targetX;
         targetNode.y = targetY;
 
-        std::string methodName = "dijikstra";
+        std::string methodName = "dijkstra";
 
         if (method != nullptr) {
             methodName = method;
